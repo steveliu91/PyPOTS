@@ -7,9 +7,14 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Publish to PyPI
+name: Publish PyPI Package
 
 on:
+  push:
+    branches:
+      - release
+      - release_pypi
+
   release:
     types: [published]
 
@@ -17,22 +22,33 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
+  PyPI-deployment:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.x'
+        python-version: '3.10'
+        check-latest: true
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install build
+
+    - name: Fetch the test environment details
+      run: |
+        which python
+        pip list
+
     - name: Build package
-      run: python -m build
+      run: |
+        python -m build
+
     - name: Publish the new package to PyPI
-      uses: pypa/gh-action-pypi-publish@v1.5.1
+      uses: pypa/gh-action-pypi-publish@v1.12.4
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}

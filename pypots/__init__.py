@@ -3,7 +3,33 @@ PyPOTS package.
 """
 
 # Created by Wenjie Du <wenjay.du@gmail.com>
-# License: GPL-v3
+# License: BSD-3-Clause
 
 
-from .__version__ import version as __version__
+from . import (
+    imputation,
+    classification,
+    clustering,
+    forecasting,
+    anomaly_detection,
+    representation,
+    optim,
+    data,
+    utils,
+)
+from .timeseries_ai import TimeSeriesAI
+from .version import __version__
+
+__all__ = [
+    "TimeSeriesAI",
+    "imputation",
+    "classification",
+    "clustering",
+    "forecasting",
+    "anomaly_detection",
+    "representation",
+    "optim",
+    "data",
+    "utils",
+    "__version__",
+]
